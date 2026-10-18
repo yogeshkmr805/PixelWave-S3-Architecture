@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PixeWave | Graphics, Marketing Assets & Campaign Management</title>
+<meta name="description" content="PixeWave manages tens of thousands of graphics and marketing assets, runs client campaigns, and delivers high-resolution graphics.">
+<style>
+  :root {
+    --ink: #0f172a;
+    --ink-soft: #334155;
+    --muted: #64748b;
+    --bg: #ffffff;
+    --bg-alt: #f5f7fb;
+    --brand: #4f46e5;
+    --brand-2: #06b6d4;
+    --accent: #f97316;
+    --border: #e2e8f0;
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --max: 1180px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .container {
+    width: 100%;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section { padding: 96px 0; }
+  .section-alt { background: var(--bg-alt); }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 12px;
+  }
+
+  h1, h2, h3 { line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(2.4rem, 5vw, 4rem); }
+  h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-bottom: 16px; }
+  h3 { font-size: 1.25rem; margin-bottom: 10px; }
+
+  .section-head {
+    max-width: 680px;
+    margin: 0 auto 56px;
+    text-align: center;
+  }
+  .section-head p { color: var(--muted); font-size: 1.05rem; }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: #fff;
+    box-shadow: 0 8px 22px rgba(79, 70, 229, 0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(79, 70, 229, 0.45); }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border: 2px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--brand); color: var(--brand); }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+  }
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: conic-gradient(from 210deg, var(--brand), var(--brand-2), var(--accent), var(--brand));
+    position: relative;
+  }
+  .logo-mark::after {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .nav-links a:hover { color: var(--brand); }
+  .nav-cta { padding: 10px 20px; font-size: 0.95rem; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 110px 0 120px;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(79, 70, 229, 0.18), transparent 40%),
+      radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.18), transparent 40%),
+      radial-gradient(circle at 60% 90%, rgba(249, 115, 22, 0.12), transparent 40%),
+      var(--bg);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .hero p.lead {
+    font-size: 1.18rem;
+    color: var(--ink-soft);
+    margin: 24px 0 36px;
+    max-width: 540px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 56px;
+    flex-wrap: wrap;
+  }
+  .hero-stats strong {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-stats span { font-size: 0.9rem; color: var(--muted); }
+
+  /* Decorative collage built with CSS only */
+  .collage {
+    position: relative;
+    height: 480px;
+  }
+  .tile {
+    position: absolute;
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    color: #fff;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .tile small {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .tile strong { font-size: 1.15rem; }
+  .tile-1 { top: 0; left: 0; width: 58%; height: 58%; background: linear-gradient(140deg, #4f46e5, #818cf8); }
+  .tile-2 { top: 12%; right: 0; width: 42%; height: 44%; background: linear-gradient(160deg, #06b6d4, #67e8f9); color: var(--ink); }
+  .tile-3 { bottom: 0; left: 8%; width: 50%; height: 40%; background: linear-gradient(120deg, #f97316, #fbbf24); }
+  .tile-4 { bottom: 6%; right: 6%; width: 38%; height: 36%; background: var(--ink); }
+  .tile-4 strong { color: #fff; }
+
+  /* ---------- Services ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 26px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 34px 30px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+  .icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(6, 182, 212, 0.18));
+  }
+  .card p { color: var(--muted); font-size: 0.97rem; }
+  .card ul {
+    list-style: none;
+    margin-top: 16px;
+  }
+  .card li {
+    padding: 6px 0 6px 24px;
+    position: relative;
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+  }
+  .card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  }
+
+  /* ---------- Scale / Numbers ---------- */
+  .scale {
+    background: linear-gradient(135deg, #0f172a, #1e1b4b);
+    color: #fff;
+    border-radius: 28px;
+    padding: 64px 48px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    text-align: center;
+  }
+  .scale .num {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #a5b4fc, #67e8f9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .scale .label { color: #cbd5e1; font-size: 0.95rem; margin-top: 6px; }
+
+  /* ---------- Showcase ---------- */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 200px;
+    gap: 18px;
+  }
+  .shot {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    color: #fff;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+  }
+  .shot:hover { transform: scale(1.02); }
+  .shot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 55%);
+  }
+  .shot-body { position: relative; z-index: 1; }
+  .shot-body h3 { font-size: 1.05rem; margin-bottom: 2px; }
+  .shot-body span { font-size: 0.82rem; opacity: 0.9; }
+  .shot.wide { grid-column: span 2; }
+  .shot.tall { grid-row: span 2; }
+  .s1 { background: radial-gradient(circle at 30% 30%, #fde68a, #f97316 55%, #be123c); }
+  .s2 { background: linear-gradient(120deg, #0ea5e9, #6366f1 60%, #a855f7); }
+  .s3 { background: repeating-linear-gradient(45deg, #10b981 0 18px, #065f46 18px 36px); }
+  .s4 { background: radial-gradient(circle at 70% 20%, #f0abfc, #7c3aed 60%, #1e1b4b); }
+  .s5 { background: linear-gradient(200deg, #fef3c7, #fb7185 55%, #881337); }
+  .s6 { background: conic-gradient(from 90deg, #22d3ee, #3b82f6, #8b5cf6, #22d3ee); }
+  .s7 { background: linear-gradient(90deg, #111827 0%, #374151 50%, #f59e0b 100%); }
+  .s8 { background: radial-gradient(ellipse at bottom, #facc15, #15803d 60%, #052e16); }
+
+  .filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .filters button {
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .filters button.active,
+  .filters button:hover {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+
+  .resolution-note {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+  .pill b { color: var(--brand); }
+
+  /* ---------- Process ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    counter-reset: step;
+  }
+  .step {
+    position: relative;
+    padding: 28px;
+    border-left: 3px solid var(--brand);
+    background: #fff;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    box-shadow: var(--shadow);
+  }
+  .step::before {
+    counter-increment: step;
+    content: "0" counter(step);
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .step p { color: var(--muted); font-size: 0.95rem; }
+
+  /* ---------- Testimonials ---------- */
+  .quotes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 26px;
+  }
+  .quote {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+  }
+  .quote p { font-size: 1rem; color: var(--ink-soft); font-style: italic; margin-bottom: 20px; }
+  .quote .who { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+  }
+  .quote .who strong { display: block; font-size: 0.95rem; }
+  .quote .who span { font-size: 0.85rem; color: var(--muted); }
+
+  /* ---------- CTA / Contact ---------- */
+  .cta {
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    border-radius: 28px;
+    padding: 72px 48px;
+    color: #fff;
+    text-align: center;
+  }
+  .cta p { max-width: 580px; margin: 14px auto 32px; opacity: 0.92; font-size: 1.05rem; }
+  .btn-white {
+    background: #fff;
+    color: var(--ink);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+  .btn-white:hover { transform: translateY(-2px); }
+
+  .contact-form {
+    max-width: 640px;
+    margin: 40px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    text-align: left;
+  }
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    font: inherit;
+  }
+  .contact-form select option { color: var(--ink); }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: rgba(255,255,255,0.8); }
+  .contact-form textarea { grid-column: span 2; min-height: 110px; resize: vertical; }
+  .contact-form .btn { grid-column: span 2; justify-self: center; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--ink);
+    color: #cbd5e1;
+    padding: 64px 0 28px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  footer h4 { color: #fff; font-size: 0.95rem; margin-bottom: 14px; }
+  footer ul { list-style: none; }
+  footer li { margin-bottom: 8px; font-size: 0.92rem; }
+  footer a:hover { color: #fff; }
+  .footer-bottom {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+  }
+  footer .logo { color: #fff; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .collage { height: 380px; }
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 72px 0; }
+    .gallery { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+    .shot.wide, .shot.tall { grid-column: auto; grid-row: auto; }
+    .contact-form { grid-template-columns: 1fr; }
+    .contact-form textarea, .contact-form .btn { grid-column: auto; }
+    .cta, .scale { padding: 48px 26px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .collage { height: 320px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="container nav">
+    <a href="#top" class="logo">
+      <span class="logo-mark" aria-hidden="true"></span>
+      PixeWave
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#scale">Scale</a></li>
+      <li><a href="#showcase">Showcase</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary nav-cta">Start a Project</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">Graphics &amp; Campaign Operations</span>
+      <h1>Every asset your brand needs, <span style="color: var(--brand)">organized, on-brand and ready.</span></h1>
+      <p class="lead">
+        PixeWave manages tens of thousands of graphics and marketing assets, runs end-to-end campaigns
+        for our clients, and delivers print-ready, high-resolution artwork on time, every time.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Talk to our team</a>
+        <a href="#showcase" class="btn btn-outline">View samples</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>50K+</strong><span>Assets managed</span></div>
+        <div><strong>120+</strong><span>Active campaigns</span></div>
+        <div><strong>up to 600 DPI</strong><span>Delivery resolution</span></div>
+      </div>
+    </div>
+
+    <div class="collage" aria-hidden="true">
+      <div class="tile tile-1"><small>Campaign</small><strong>Summer Launch 2026</strong></div>
+      <div class="tile tile-2"><small>Social</small><strong>Story Pack</strong></div>
+      <div class="tile tile-3"><small>Print</small><strong>Billboard · 300 DPI</strong></div>
+      <div class="tile tile-4"><small>Brand Kit</small><strong>Identity System v3</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">What we do</span>
+      <h2>One partner for the full life of your creative</h2>
+      <p>From the first draft to the final archive, we keep your visual library organized, consistent and easy to find.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="icon">🗂️</div>
+        <h3>Digital Asset Management</h3>
+        <p>We catalogue, tag and govern large libraries so the right file is always one search away.</p>
+        <ul>
+          <li>Metadata tagging and taxonomy</li>
+          <li>Version control and approvals</li>
+          <li>Usage rights and expiry tracking</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="icon">📣</div>
+        <h3>Campaign Management</h3>
+        <p>Planning, production and rollout of multi-channel campaigns with clear timelines and reporting.</p>
+        <ul>
+          <li>Brief to briefing-to-delivery workflow</li>
+          <li>Multi-channel adaptation (social, web, print)</li>
+          <li>Performance tracking and reports</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="icon">🖼️</div>
+        <h3>High-Resolution Graphics</h3>
+        <p>Production-grade artwork for print, outdoor, packaging and large-format displays.</p>
+        <ul>
+          <li>Print-ready files at up to 600 DPI</li>
+          <li>CMYK, Pantone and colour-proofed output</li>
+          <li>Vector and layered master files</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="icon">⚡</div>
+        <h3>Asset Adaptation</h3>
+        <p>Turn one master design into dozens of correctly sized versions for every platform in minutes.</p>
+        <ul>
+          <li>Automated resizing and cropping</li>
+          <li>Brand-compliant templates</li>
+          <li>Localisation and language variants</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCALE ============ -->
+<section id="scale" class="section-alt">
+  <div class="container">
+    <div class="scale">
+      <div>
+        <div class="num">50,000+</div>
+        <div class="label">Graphics and marketing assets under management</div>
+      </div>
+      <div>
+        <div class="num">120+</div>
+        <div class="label">Client campaigns run simultaneously</div>
+      </div>
+      <div>
+        <div class="num">99.2%</div>
+        <div class="label">On-time delivery across the last 12 months</div>
+      </div>
+      <div>
+        <div class="num">600 DPI</div>
+        <div class="label">Maximum output resolution for print</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SHOWCASE ============ -->
+<section id="showcase">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Sample work</span>
+      <h2>A glimpse of what we deliver</h2>
+      <p>A selection of recent campaign visuals and high-resolution graphics produced by our studio.</p>
+    </div>
+
+    <div class="filters" role="tablist" aria-label="Filter samples">
+      <button class="active" data-filter="all">All</button>
+      <button data-filter="campaign">Campaigns</button>
+      <button data-filter="print">Print</button>
+      <button data-filter="social">Social</button>
+    </div>
+
+    <div class="gallery" id="gallery">
+      <figure class="shot wide s2" data-cat="campaign">
+        <div class="shot-body"><h3>Autumn Retail Campaign</h3><span>Campaign · 8 channels</span></div>
+      </figure>
+      <figure class="shot tall s1" data-cat="print">
+        <div class="shot-body"><h3>Outdoor Billboard</h3><span>Print · 600 DPI</span></div>
+      </figure>
+      <figure class="shot s3" data-cat="social">
+        <div class="shot-body"><h3>Social Story Set</h3><span>Social · 12 sizes</span></div>
+      </figure>
+      <figure class="shot s4" data-cat="print">
+        <div class="shot-body"><h3>Packaging Artwork</h3><span>Print · CMYK + Pantone</span></div>
+      </figure>
+      <figure class="shot s5" data-cat="campaign">
+        <div class="shot-body"><h3>Product Launch Hero</h3><span>Campaign · Web + OOH</span></div>
+      </figure>
+      <figure class="shot wide s6" data-cat="social">
+        <div class="shot-body"><h3>Brand Identity Motion Kit</h3><span>Social · Animated assets</span></div>
+      </figure>
+      <figure class="shot s7" data-cat="print">
+        <div class="shot-body"><h3>Trade Show Banner</h3><span>Print · Large format</span></div>
+      </figure>
+      <figure class="shot s8" data-cat="campaign">
+        <div class="shot-body"><h3>Seasonal Promo Suite</h3><span>Campaign · 20+ assets</span></div>
+      </figure>
+    </div>
+
+    <div class="resolution-note">
+      <span class="pill"><b>Formats:</b> PSD · AI · PDF/X · SVG · PNG · TIFF</span>
+      <span class="pill"><b>Colour:</b> RGB · CMYK · Pantone</span>
+      <span class="pill"><b>Resolution:</b> 72 to 600 DPI</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section id="process" class="section-alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">How we work</span>
+      <h2>A simple, transparent process</h2>
+      <p>Clear stages, clear owners and a shared dashboard so you always know where your project stands.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <h3>Discover</h3>
+        <p>We audit your existing assets, goals and brand guidelines to build a clear plan.</p>
+      </div>
+      <div class="step">
+        <h3>Organise</h3>
+        <p>Assets are tagged, catalogued and stored in a governed library your team can trust.</p>
+      </div>
+      <div class="step">
+        <h3>Create</h3>
+        <p>Our designers produce campaign visuals and high-resolution graphics against your brief.</p>
+      </div>
+      <div class="step">
+        <h3>Deliver</h3>
+        <p>Approved files are exported in every required format, size and colour profile.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Client voices</span>
+      <h2>Trusted by teams that ship every day</h2>
+    </div>
+
+    <div class="quotes">
+      <blockquote class="quote">
+        <p>"PixeWave took a chaotic folder structure with thousands of files and turned it into a library our whole company actually uses."</p>
+        <div class="who"><div class="avatar">AM</div><div><strong>Anita M.</strong><span>Head of Marketing, Retail Brand</span></div></div>
+      </blockquote>
+      <blockquote class="quote">
+        <p>"Our campaigns now launch across every channel at once. The turnaround and the print quality have both been outstanding."</p>
+        <div class="who"><div class="avatar">RK</div><div><strong>Rohan K.</strong><span>Creative Director, Consumer Goods</span></div></div>
+      </blockquote>
+      <blockquote class="quote">
+        <p>"The high-resolution packaging files arrived colour-proofed and on schedule. Exactly what our print partners needed."</p>
+        <div class="who"><div class="avatar">SL</div><div><strong>Sarah L.</strong><span>Brand Manager, FMCG</span></div></div>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA / CONTACT ============ -->
+<section id="contact" class="section-alt">
+  <div class="container">
+    <div class="cta">
+      <span class="eyebrow" style="color:#fff; opacity:.85">Let's work together</span>
+      <h2>Ready to bring order and impact to your visuals?</h2>
+      <p>Tell us a little about your brand and what you need. Our team will reply within one business day.</p>
+      <a href="#contact-form" class="btn btn-white">Book a discovery call</a>
+
+      <form class="contact-form" id="contact-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thank you! We will be in touch.';">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Work email" required>
+        <input type="text" name="company" placeholder="Company">
+        <select name="need" aria-label="What do you need?">
+          <option value="" disabled selected>What do you need?</option>
+          <option>Digital asset management</option>
+          <option>Campaign management</option>
+          <option>High-resolution graphics</option>
+          <option>Something else</option>
+        </select>
+        <textarea name="message" placeholder="Tell us about your project"></textarea>
+        <button type="submit" class="btn btn-white">Send enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#top" class="logo">
+          <span class="logo-mark" aria-hidden="true"></span>
+          PixeWave
+        </a>
+        <p style="margin-top:16px; max-width:320px; font-size:0.92rem;">
+          Managing graphics, marketing assets and client campaigns at scale, with print-grade quality at every step.
+        </p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Digital Asset Management</a></li>
+          <li><a href="#services">Campaign Management</a></li>
+          <li><a href="#services">High-Resolution Graphics</a></li>
+          <li><a href="#services">Asset Adaptation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#showcase">Showcase</a></li>
+          <li><a href="#scale">Scale</a></li>
+          <li><a href="#contact">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@pixewave.example">hello@pixewave.example</a></li>
+          <li>+1 (000) 000-0000</li>
+          <li>Mon to Fri, 9:00 to 18:00</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 PixeWave. All rights reserved.</span>
+      <span>Privacy · Terms · Cookies</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Simple sample-gallery filter
+  (function () {
+    var buttons = document.querySelectorAll('.filters button');
+    var items = document.querySelectorAll('#gallery .shot');
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        buttons.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var f = btn.getAttribute('data-filter');
+        items.forEach(function (item) {
+          var show = f === 'all' || item.getAttribute('data-cat') === f;
+          item.style.display = show ? '' : 'none';
+        });
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
