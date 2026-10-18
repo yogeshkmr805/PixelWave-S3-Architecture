@@ -81,15 +81,15 @@ We will follow a structured approach to build the solution:
 - Create two S3 buckets:
   - `pixelwave-assets` for storing images, campaign files, and design assets.
   - `pixelwave-web` for hosting static microsites.
-![alt text](Buckets-1.png)
+![alt text](Evidences/Buckets-1.png)
 
 ### Step 2: Enable Versioning
 - Enable versioning on the `pixelwave-assets` bucket to keep track of all file versions. This allows designers to recover previous iterations of their work if needed.
-![alt text](Bucket_versioning_disabled-1.png)
-![alt text](Bucket_versioning_enabled-1.png)
+![alt text](Evidences/Bucket_versioning_disabled-1.png)
+![alt text](Evidences/Bucket_versioning_enabled-1.png)
 
 Validating that versioning is enabled by uploading 2 different asset png files, modifying them by replacing them with new versions, and checking that multiple versions exist in the bucket.
-![alt text](object_versioning_v2.png)
+![alt text](Evidences/object_versioning_v2.png)
 
 
 ### Step 3: Implement Lifecycle Policies
@@ -107,7 +107,7 @@ Lifecycle actions:
 - Transition previous versions to Glacier Flexible Retrieval after 180 days.
 - Expire previous versions after 365 days.
 
-![alt text](Lifecycle_rule_setup_v2.png)
+![alt text](Evidences/Lifecycle_rule_setup_v2.png)
 
 Why above Choices?
 - 30 days: PixelWave designers typically revise files heavily only during the first month.
@@ -118,7 +118,7 @@ Testing Delete Marker Behavior
 - Select object `logo.png` → Delete.
 - S3 will NOT delete the versions; it will add a delete marker.
 - Enable `Show versions` view.
-![alt text](delete_marker-1.png)
+![alt text](Evidences/delete_marker-1.png)
 
 ### Step 4: Create IAM Groups and Users
 - Create IAM groups for different teams:
@@ -126,25 +126,25 @@ Testing Delete Marker Behavior
   - `pixelwave-automation` group has a policy that allows uploading to the bucket but denies read and delete actions.
 - Create IAM users and assign them to the appropriate groups. For example, `designer-alex` is added to the `pixelwave-designers` group, while `automation-uploader` is added to the `pixelwave-automation` group.
 
-  ![alt text](IAM_user_groups.png)
+  ![alt text](Evidences/IAM_user_groups.png)
 
-  ![alt text](IAM_users.png)
+  ![alt text](Evidences/IAM_users.png)
 
 - Create IAM policies for each group to enforce the principle of least privilege. 
-![alt text](IAM_policies.png)
+![alt text](Evidences/IAM_policies.png)
 
     - `pixelwave-designers` group policy allows `s3:PutObject`, `s3:GetObject`, and `s3:ListBucket` actions on the `pixelwave-assets` bucket, while denying 
     `s3:DeleteObject`.
-    ![alt text](IAM_policies_designer.png)
+    ![alt text](Evidences/IAM_policies_designer.png)
 
     - `pixelwave-automation` group policy allows `s3:PutObject` but denies `s3:GetObject` and `s3:DeleteObject`.
-    ![alt text](IAM_policies_automation.png)
+    ![alt text](Evidences/IAM_policies_automation.png)
 
 
 ### Step 5: Apply Bucket Policies
 - Apply a bucket policy to the `pixelwave-assets` bucket that allows access only to the IAM groups created in Step 4. This ensures that only authorized users can interact with the bucket. Even if an object becomes public accidentally, this bucket policy prevents exposure.
 
-![alt text](Bucket_policy.png)
+![alt text](Evidences/Bucket_policy.png)
 
 ### Step 6: Use ACLs Sparingly
 - Demonstrate the use of ACLs for a specific partner use case. For example, PixelWave wants to share a single asset file with an external partner (for example a marketing agency) without giving access to the entire bucket.
@@ -153,49 +153,49 @@ Testing Delete Marker Behavior
 
 - Go to permissions tab of the object, click on Access Control List (ACL), and add the external partner's AWS account ID with read permissions.
 
-![alt text](S3_object_ACL.png)
+![alt text](Evidences/S3_object_ACL.png)
 
 ### Testing Phase: 
 #### Test Case 1: Designer Permission
 - Log in as `designer-alex` (using IAM user console URL):
 
     - Try to upload a new asset to the `pixelwave-assets` bucket. ✅ Success
-    ![alt text](designer_user_write_access.png)
+    ![alt text](Evidences/designer_user_write_access.png)
 
     - Try to delete an existing asset. ❌ Access Denied
-    ![alt text](designer_user_delete_access.png)
+    ![alt text](Evidences/designer_user_delete_access.png)
 
     - Try to list the contents of the bucket. ✅ Success
-    ![alt text](designer_user_list_objects.png)
+    ![alt text](Evidences/designer_user_list_objects.png)
 
 #### Test Case 2: Automation User Permission
 - Log in as `automation-uploader` (using IAM user console URL):
 
     - Try to upload a new asset to the `pixelwave-assets` bucket. ✅ Success
-    ![alt text](automation-uploader_user_write_access.png)
+    ![alt text](Evidences/automation-uploader_user_write_access.png)
 
     - Try to download an existing asset. ❌ Access Denied
-    ![alt text](automation-uploader_user_download_access.png)
+    ![alt text](Evidences/automation-uploader_user_download_access.png)
 
 #### Test Case 3: Bucket Policy Enforcement
 - Copy the S3 Bucket URL of the `pixelwave-assets` bucket and try to access it from a browser without logging in. ❌ Access Denied
-![alt text](Bucket_public_access.png)
+![alt text](Evidences/Bucket_public_access.png)
 
 ### Step 7: Enable Server-Side Encryption
 - Created SSE-S3 encryption for the `pixelwave-web` bucket to ensure all data is encrypted at rest. This is crucial for maintaining client confidentiality and meeting compliance requirements.
-![alt text](Encryption_key_SSE_S3.png)
+![alt text](Evidences/Encryption_key_SSE_S3.png)
 
 - Created SSE-KMS encryption for the `pixelwave-assets` bucket to provide an additional layer of security and control over encryption keys. This allows PixelWave to manage access to the keys and audit their usage.
 
     
     **AWS Console → search KMS → Customer managed keys →  click create key → select symmetric → give alias name and description → click next → add tags if needed → click next → add key administrators and users → click next → review and create key.**
     
-![alt text](Encryption_key_SSE_KMS.png)
+![alt text](Evidences/Encryption_key_SSE_KMS.png)
 
-![alt text](Encryption_key_SSE_KMS_created.png)
+![alt text](Evidences/Encryption_key_SSE_KMS_created.png)
 
 - Enabled SSE-KMS Default Encryption on `pixelwave-assets` bucket to ensure that all new objects uploaded to the bucket are automatically encrypted using the specified KMS key.
-![alt text](Enabled_Encryption_key_SSE_KMS.png)
+![alt text](Evidences/Enabled_Encryption_key_SSE_KMS.png)
 
 - Enforcing encryption on the bucket ensures that all data at rest is protected, and only authorized users with the appropriate permissions can access the encrypted data.
 
@@ -234,21 +234,21 @@ Paste this policy (replace YOUR_ACCOUNT_ID):
 ### Testing Phase:
 #### Test Case 4: Encryption Enforcement
 - Try to upload an object to the `pixelwave-assets` bucket specifying server-side encryption. ✅ Success
-![alt text](SSE_KMS_Upload_Test_case_4.png)
+![alt text](Evidences/SSE_KMS_Upload_Test_case_4.png)
 
 #### Test Case 5: Upload Without Encryption
 - Try to upload an object to the `pixelwave-assets` bucket without specifying server-side encryption. ❌ Access Denied
-![alt text](Without_Encryption_Upload_Test_case_5.png)
+![alt text](Evidences/Without_Encryption_Upload_Test_case_5.png)
 
 #### Test Case 6: Upload With different User KMS Key
 - Uploaded an object to the `pixelwave-assets` bucket using `designer-alex` user by specifying KMS key ARN. ✅ Success
-![alt text](designer_user_upload_object_test_6.png)
+![alt text](Evidences/designer_user_upload_object_test_6.png)
 
 - Uploaded an object to the `pixelwave-assets` bucket using `automation-uploader` user by specifying same KMS key ARN. ✅ Success
-![alt text](automation-uploader_user_uploaded_object_test_6.png)
+![alt text](Evidences/automation-uploader_user_uploaded_object_test_6.png)
 
 - Uploaded an object to the `pixelwave-assets` bucket using `automation-uploader` user by not specifying Encryption Key. ❌ Access Denied
-![alt text](automation-uploader_user_uploaded_object_without_specifying_encryp_test_6.png)
+![alt text](Evidences/automation-uploader_user_uploaded_object_without_specifying_encryp_test_6.png)
 
 ### Step 8: Configure Static Website Hosting
 - Configure the `pixelwave-web` bucket for static website hosting. This allows PixelWave to host static previews of their projects for clients. The bucket is set up to serve an index.html file as the default page.
@@ -271,10 +271,10 @@ Paste this policy (replace YOUR_ACCOUNT_ID):
 
 Uploaded `index.html` file to the `pixelwave-web` bucket:
 
-![alt text](index_static_site_uploaded.png)
+![alt text](Evidences/index_static_site_uploaded.png)
 
 8. Block public access for `pixelwave-web` bucket to be turned off. This is important to ensure that the bucket is not publicly accessible by default.
-![alt text](index_static_site_uploaded-1.png)
+![alt text](Evidences/index_static_site_uploaded-1.png)
 
 9. Go to: pixelwave-web → Permissions → Bucket policy. 
 Paste this policy (replace BUCKET_NAME):
@@ -299,4 +299,4 @@ Paste this policy (replace BUCKET_NAME):
 #### Testing Phase:
 #### Test Case 7: Accessing the Static Website
 Open a web browser and navigate to the static website endpoint provided by S3 for the `pixelwave-web` bucket. ✅ Success
-![alt text](static_site_s3_browser_hosted.png)
+![alt text](Evidences/static_site_s3_browser_hosted.png)
