@@ -4,15 +4,13 @@
         {
             "Effect": "Allow",
             "Action": [
-                "s3:PutObject",
-                "s3:GetObject",
                 "s3:ListBucket",
-                "s3:ListAllMyBuckets"
+                "s3:PutObject",
+                "s3:GetObject"  
             ],
             "Resource": [
                 "arn:aws:s3:::pixelwave-assets-228145980186-ap-south-1-an",
-                "arn:aws:s3:::pixelwave-assets-228145980186-ap-south-1-an/*",
-                "*"
+                "arn:aws:s3:::pixelwave-assets-228145980186-ap-south-1-an/*"
             ]
         }
     ]
